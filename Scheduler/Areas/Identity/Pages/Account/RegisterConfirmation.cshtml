@@ -1,0 +1,34 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Register confirmation";
+}
+
+@{
+    if (@Model.DisplayConfirmAccountLink)
+    {
+        <h1 text-align="center">Confirm your e-mail address</h1>
+        <p>Please click the button below to confirm your e-mail address.</p>
+        <div>
+            <a id="confirm-link" class="btn btn-success" href="@Model.EmailConfirmationUrl">Confirm Email</a>
+        </div>
+        <div>
+            <p style="color:red; font-weight:bold;">
+                If you do not confirm your email, this account will be locked and no longer usable.
+            </p>
+        </div>
+        <div>
+            <p>
+                This app does not currently have a real email sender registered. This is for testing and learning purposes only.
+                Once confirmed, this email will be uniquely associated with your new Scheduler account.
+            </p>
+        </div>
+
+    }
+    else
+    {
+        <p>
+            Please check your email to confirm your account.
+        </p>
+    }
+}

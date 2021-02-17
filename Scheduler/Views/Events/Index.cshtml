@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Scheduler.Models.Event>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Your Events</h1>
+
+<p>
+    <a asp-action="Create">Add Event</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Subject</p>
+            </th>
+            <th>
+                <p>Description</p>
+            </th>
+            <th>
+                <p>Event Creator</p>
+            </th>
+            <th>
+                <p>Members</p>
+            </th>
+            <th>
+                <p>Location</p>
+            </th>
+            <th>
+                <p>Start Time</p>
+            </th>
+            <th>
+                <p>End Time</p>
+            </th>
+            <th>
+                <p>All Day</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.EventId">@Html.DisplayFor(modelItem => item.Subject)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventCreator)
+            </td>
+            <td>
+                @String.Join(", ", item.EventMembers)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsFullDay)
+            </td>
+            <td>
+                @if (item.EventCreator == User.GetFirstName() + " " + User.GetLastName())
+                {
+                    <a asp-action="Edit" asp-route-id="@item.EventId" class="btn btn-info">Edit Event</a>
+                }
+            </td>
+            <td>
+                @if (item.DeclinedMembers.Contains(User.Identity.Name))
+                {
+                    <p><span style="color:red"><b>Event Declined</b></span></p>
+                }
+                @if (!item.DeclinedMembers.Contains(User.Identity.Name))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.EventId" class="btn btn-danger">Decline Event</a>
+                }
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
